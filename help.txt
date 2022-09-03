@@ -1,0 +1,35 @@
+Steps to setup GCP:
+- Create new project (name: Givebacks)
+- Go to API and Services -> OAuth consent screen -> External -> Application type: public -> Enter Application Name -> Application logo -> click save
+- API and Services  -> Credentials -> Application type -> web application -> click create
+- API and Services  -> Credentials -> Application type -> android -> enter package name(com.memberhub_mobile) -> SHA-1 certificate fingerprint  -> click create
+- API and Services  -> Credentials -> Application type -> iOS -> enter bundle id(org.MemberHub_Mobile) -> click create
+
+In project setup:
+Common Setup:
+GoogleSignin.configure({
+  webClientId:
+    '655537921320-iecudlo44jbfj64rnp6jsbc210r0f2pd.apps.googleusercontent.com',
+  iosClientId:
+    '655537921320-c4pcru55hnnptqcaiukisc78s0glucoi.apps.googleusercontent.com',
+  offlineAccess: true,
+})
+
+Android: 
+- android/build.gradle
+ext: googlePlayServicesAuthVersion = "19.2.0"
+dependencies: classpath 'com.google.gms:google-services:4.3.10'
+
+- android/app/build.gradle
+ last line: apply plugin: 'com.google.gms.google-services'
+
+iOS:
+- podfile: pod 'GoogleSignIn', '~> 6.0.2'
+- Then cd ios-> pod install
+- Open Xcode -> select project name -> info setting -> url types -> add one -> add iOS client is in url scheme section (com.googleusercontent.apps.key)
+
+
+Common errors that can arise: 
+- Android app not building using rpm run android (saying it needs google-services.json)
+- For iOS create separate OAuth client id and add bundle name over there (add the cred in GoogleSignIn.configure object)
+- For iOS: url scheme not set (jo key error m karahi h vo Xcode ke url section m dal bas)
